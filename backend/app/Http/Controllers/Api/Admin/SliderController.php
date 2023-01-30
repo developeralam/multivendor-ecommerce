@@ -16,7 +16,7 @@ class SliderController extends Controller
      */
     public function index()
     {
-        $sliders = Slider::all();
+        $sliders = Slider::status('active')->take(5)->get();
         return SliderResource::collection($sliders);
     }
 

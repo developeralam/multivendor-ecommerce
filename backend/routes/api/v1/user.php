@@ -18,6 +18,8 @@ use Illuminate\Support\Facades\Route;
 Route::controller(AuthController::class)->group(function () {
     Route::post('/login', 'login');
     Route::post('/register', 'register');
+    Route::post('/otp-verify', 'verifyOtp');
+    Route::post('/resend-otp', 'resendOtp');
 });
 Route::middleware('auth:user-api')->group(function () {
     Route::controller(AuthController::class)->group(function () {

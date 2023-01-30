@@ -7,6 +7,8 @@ use App\Http\Resources\Admin\ProductResource;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
+use function App\Helpers\send_ms;
+
 class ProductController extends Controller
 {
     /**
@@ -14,10 +16,21 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $products = Product::paginate(20);
-        return ProductResource::collection($products);
+        try {
+            $limit = 10;
+            if ($request->conditions == null) {
+                $products = Product::status('active')->paginate($limit);
+            } else if ($request->conditions == 'sale') {
+                $products = Product::sold()->status('active')->paginate($limit);
+            } else {
+                $products = Product::conditions($request->conditions)->status('active')->paginate($limit);
+            }
+            return ProductResource::collection($products);
+        } catch (\Exception $e) {
+            return send_ms($e->getMessage(), false, 500);
+        }
     }
 
     /**

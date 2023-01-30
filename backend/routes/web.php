@@ -2,6 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 
+use function App\Helpers\test;
+use function App\Helpers\twilio_env;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,4 +18,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+})->name('home');
+
+Route::get('/contact', function () {
+    return view('test.contact');
+})->name('contact');
+Route::get('/about-us', function () {
+    return view('about');
 });

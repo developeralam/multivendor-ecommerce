@@ -20,7 +20,7 @@ class UserSeeder extends Seeder
             'name' => 'User',
             'email' => 'user@gmail.com',
             'phone' => '01716921699',
-            'password' => Hash::make('password')
+            'password' => 'password'
         ]);
     }
 }

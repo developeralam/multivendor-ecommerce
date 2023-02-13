@@ -3,6 +3,7 @@ import { ref, onMounted } from 'vue';
 import { Swiper, SwiperSlide } from "swiper/vue";
 import { useSlider, useCategory, useProduct } from '@/store'
 import {productCard, productPrice} from '@/components/product'
+import { SliderScreen, CategoryScreen, ProductScreen } from '@/components/skeleton'
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/pagination";
@@ -35,18 +36,21 @@ onMounted(() => {
             <div class="">
                 <div class="row">
                     <div class="col-lg-12 order-0 order-lg-1 order-xl-1">
-
-                        
-
-                        <div class="home-grid-slider slider-arrow slider-dots">
-                            <swiper :spaceBetween="30" :pagination="{
-                                clickable: true,
-                            }" :loop="true" :autoplay="{
-                              delay: 2500,
-                            }" :modules="modules" class="mySwiper">
-                                <swiper-slide v-for="slider in sliders.data" :key="slider.index"><img :src="slider.image" alt="" /></swiper-slide>
-                            </swiper>
-                        </div>
+                        <template v-if="sliders.data">
+                            <div class="home-grid-slider slider-arrow slider-dots">
+                                <swiper :spaceBetween="30" :pagination="{
+                                    clickable: true,
+                                }" :loop="true" :autoplay="{
+                                  delay: 2500,
+                                }" :modules="modules" class="mySwiper">
+                                    <swiper-slide v-for="slider in sliders.data" :key="slider.index"><img :src="$filters.imagePath(slider.image)"
+                                            alt="" /></swiper-slide>
+                                </swiper>
+                            </div>
+                        </template>
+                        <template v-else>
+                            <SliderScreen />
+                        </template>
                     </div>
                 </div>
             </div>
@@ -63,20 +67,24 @@ onMounted(() => {
                 </div>
     
                 <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
-                    <div class="col" v-for="(category, index) in categories.data" :key="index">
-                        <div class="product-card">
-                            <ul>
-                                <li>
-                                    <a class="suggest-card" href="shop-4column.html">
-                                        <img :src="category.image" alt="" />
-                                    </a>
-                                </li>
-                            </ul>
-    
-                            <h6 class="text-center mt-2">{{category.name}}</h6>
+                    <template v-if="categories.data">
+                        <div class="col" v-for="(category, index) in categories.data" :key="index">
+                            <div class="product-card">
+                                <ul>
+                                    <li>
+                                        <a class="suggest-card" href="shop-4column.html">
+                                            <img :src="$filters.imagePath(category.image)" alt="" />
+                                        </a>
+                                    </li>
+                                </ul>
+                        
+                                <h6 class="text-center mt-2">{{category.name}}</h6>
+                            </div>
                         </div>
-                    </div>
-    
+                    </template>
+                    <template v-else>
+                        <CategoryScreen :dataAmount="10"/>
+                    </template>
                     
                 </div>
             </div>
@@ -91,7 +99,14 @@ onMounted(() => {
                         </div>
                     </div>
                 </div>
-                <productCard :products="sales"/>
+                <template v-if="sales.data">
+                    <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
+                    <productCard :product="product" v-for="(product, index) in sales.data" :key="index"/>
+                    </div>
+                </template>
+                <template v-else>
+                    <ProductScreen :dataAmount="10" />
+                </template>
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="section-btn-25">
@@ -112,7 +127,15 @@ onMounted(() => {
                         </div>
                     </div>
                 </div>
-                <productCard :products="populars" />
+                
+                <template v-if="populars.data">
+                    <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
+                        <productCard :product="product" v-for="(product, index) in populars.data" :key="index" />
+                    </div>
+                </template>
+                <template v-else>
+                    <ProductScreen :dataAmount="10" />
+                </template>
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="section-btn-25">
@@ -133,7 +156,15 @@ onMounted(() => {
                         </div>
                     </div>
                 </div>
-                <productCard :products="features" />
+                
+                <template v-if="features.data">
+                    <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
+                        <productCard :product="product" v-for="(product, index) in features.data" :key="index" />
+                    </div>
+                </template>
+                <template v-else>
+                    <ProductScreen :dataAmount="10" />
+                </template>
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="section-btn-25">
@@ -156,32 +187,40 @@ onMounted(() => {
                 </div>
                 <div class="row">
                     <div class="col">
-                        <ul class="new-slider slider-arrow">
-                            <swiper :slidesPerView="5" :slidesPerGroup="3" :loop="true" :loopFillGroupWithBlank="true"
-                                 :navigation="true" :modules="newModules" class="mySwiper">
-                                <swiper-slide v-for="(nitem, index) in newItems.data" :key="index"><li>
-                                    <div class="product-card">
-                                        <div class="product-media">
-                                            <div class="product-label">
-                                                <label class="label-text new">New</label>
+                        
+                        <template v-if="newItems.data">
+                            <ul class="new-slider slider-arrow">
+                                <swiper :slidesPerView="5" :slidesPerGroup="3" :loop="true" :loopFillGroupWithBlank="true" :navigation="true"
+                                    :modules="newModules" class="mySwiper">
+                                    <swiper-slide v-for="(nitem, index) in newItems.data" :key="index">
+                                        <li>
+                                            <div class="product-card">
+                                                <div class="product-media">
+                                                    <div class="product-label">
+                                                        <label class="label-text new">New</label>
+                                                    </div>
+                                                    <button class="product-wish wish">
+                                                        <i class="fas fa-heart"></i></button><a class="product-image" href="product-video.html"><img
+                                                            :src="$filters.imagePath(nitem.thumbnail)" alt="product" /></a>
+                                                </div>
+                                                <div class="product-content">
+                                                    <h6 class="product-name">
+                                                        <a href="product-video.html">{{ nitem.name}}</a>
+                                                    </h6>
+                                                    <productPrice :price="nitem.price" :discount="nitem.discount" />
+                                                    <button class="product-add" title="Add to Cart">
+                                                        <i class="fas fa-shopping-basket"></i><span>Add</span>
+                                                    </button>
+                                                </div>
                                             </div>
-                                            <button class="product-wish wish">
-                                                <i class="fas fa-heart"></i></button><a class="product-image" href="product-video.html"><img
-                                                    :src="nitem.thumbnail" alt="product" /></a>
-                                        </div>
-                                        <div class="product-content">
-                                            <h6 class="product-name">
-                                                <a href="product-video.html">{{ nitem.name}}</a>
-                                            </h6>
-                                            <productPrice :price="nitem.price" :discount="nitem.discount"/>
-                                            <button class="product-add" title="Add to Cart">
-                                                <i class="fas fa-shopping-basket"></i><span>Add</span>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </li></swiper-slide>
-                            </swiper> 
-                        </ul>
+                                        </li>
+                                    </swiper-slide>
+                                </swiper>
+                            </ul>
+                        </template>
+                        <template v-else>
+                            <ProductScreen :dataAmount="5" />
+                        </template>
                     </div>
                 </div>
                 <div class="row">

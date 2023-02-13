@@ -7,6 +7,8 @@ use App\Http\Controllers\Api\Admin\SliderController;
 use App\Http\Controllers\Api\Admin\CategoryController;
 use App\Http\Controllers\Api\Admin\DivisionController;
 use App\Http\Controllers\Api\Admin\ProductController;
+use App\Http\Controllers\Api\SellerController;
+use App\Http\Controllers\Api\ShopController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,4 +27,8 @@ Route::prefix('v1')->group(function () {
     Route::get('product', [ProductController::class, 'index']);
     Route::get('brand', [BrandController::class, 'index']);
     Route::get('division', [DivisionController::class, 'index']);
+    Route::get('seller', [SellerController::class, 'index']);
+    Route::get('seller/products/{slug}', [SellerController::class, 'sellerProducts']);
+    Route::get('shops', [ShopController::class, 'index']);
+    Route::get('/sidebar', [ShopController::class, 'sidebar']);
 });

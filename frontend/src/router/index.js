@@ -40,7 +40,7 @@ const routes = [
         }
     },
     {
-        path: '/seller/store',
+        path: '/seller/:slug',
         name: 'pages.seller.store',
         component: SellerStore,
         meta: {
@@ -102,7 +102,10 @@ const routes = [
 ];
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
-    routes
+    routes,
+    scrollBehavior() {
+        return { top: 0, behavior: 'smooth' }
+    },
 })
 const DEFAULT_TITLE = '404';
 router.beforeEach((to, from, next) => {

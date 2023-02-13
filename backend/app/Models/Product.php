@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Product extends Model
 {
@@ -23,5 +23,9 @@ class Product extends Model
     public function scopeConditions($query, $condition)
     {
         $query->where('conditions', $condition);
+    }
+    public function wishlistPorductUsers()
+    {
+        return $this->belongsToMany(User::class, 'wishlists');
     }
 }

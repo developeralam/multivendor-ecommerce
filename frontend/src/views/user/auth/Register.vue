@@ -93,6 +93,9 @@ function zeroPadded(num) {
     return num < 10 ? `0${num}` : num;
 }
 // Resend Timer End
+onMounted(() => {
+    $("#loginModal").modal('hide');
+})
 </script>
 <template>
     <section class="user-form-part">

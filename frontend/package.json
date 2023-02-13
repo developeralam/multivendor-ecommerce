@@ -11,8 +11,10 @@
   "dependencies": {
     "axios": "^1.2.3",
     "element-plus": "^2.2.28",
+    "laravel-vue-pagination": "^4.0.0",
     "nprogress": "^0.2.0",
     "pinia": "^2.0.29",
+    "skeleton-screen-css": "^1.1.0",
     "swiper": "^8.4.6",
     "vee-validate": "^4.7.3",
     "vue": "^3.2.45",

@@ -19,6 +19,9 @@ const app = createApp(App)
 app.config.globalProperties.$filters = {
     currencySymbol(value) {
         return '৳' + value.toLocaleString();
+    },
+    imagePath(img) {
+        return import.meta.env.VITE_API_URL + '/' + img;
     }
 }
 app.mount('#app')

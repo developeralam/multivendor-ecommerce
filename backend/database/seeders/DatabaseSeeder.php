@@ -18,13 +18,14 @@ class DatabaseSeeder extends Seeder
         $this->call([
             UserSeeder::class,
             AdminSeeder::class,
-            SellerSeeder::class,
+            // SellerSeeder::class,
             DivisionSeeder::class,
             DistrictSeeder::class,
         ]);
         \App\Models\Brand::factory(20)->create();
         \App\Models\Category::factory(30)->create();
         \App\Models\SubCategory::factory(100)->create();
+        \App\Models\Seller::factory(20)->create();
         \App\Models\Product::factory(100)->create();
         \App\Models\Slider::factory(8)->create();
     }

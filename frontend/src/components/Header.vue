@@ -1,10 +1,13 @@
 <script setup>
-import { useAuth,useNotification } from '@/store';
+import { useAuth,useNotification, useCart } from '@/store';
+import { onMounted } from '@vue/runtime-core';
 import { storeToRefs } from 'pinia';
 import { useRouter } from 'vue-router';
 const auth = useAuth();
+const cart = useCart();
 const notify = useNotification();
 const { user, logoutLoading } = storeToRefs(auth);
+const { cartItemsCount, totalPrice } = storeToRefs(cart);
 const router = useRouter();
 const logout = async () => {
     const res = await auth.logout();
@@ -25,6 +28,7 @@ const showSeach = () => {
     $(".header-form").toggleClass("active"),
         $('.header-src').children(".fa-search").toggleClass("fa-times");
 }
+
 </script>
 <template>
   <div>
@@ -90,10 +94,11 @@ const showSeach = () => {
                         </ul>
                     </li>
     
-                    <a href="wishlist.html" class="header-widget" title="Wishlist"><i
-                            class="fas fa-heart"></i><sup>0</sup></a><button @click="showCart" class="header-widget header-cart"
+                    <router-link v-if="user.data" :to="{name:'user.wishlist'}" class="header-widget" title="Wishlist"><i
+                            class="fas fa-heart"></i><sup>{{ user.meta.wishlists.length }}</sup></router-link>
+                    <button @click="showCart" class="header-widget header-cart"
                         title="Cartlist">
-                        <i class="fas fa-shopping-basket"></i><sup>9+</sup><span>total price<small>$345.00</small></span>
+                        <i class="fas fa-shopping-basket"></i><sup>{{cartItemsCount}}+</sup><span>total price<small>{{ $filters.currencySymbol(totalPrice)}}</small></span>
                     </button>
                 </div>
             </div>

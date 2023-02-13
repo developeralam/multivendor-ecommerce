@@ -11,6 +11,7 @@
 /* Package Css */
 @import 'element-plus/dist/index.css';
 @import 'nprogress/nprogress.css';
+@import "skeleton-screen-css";
 
 #nprogress .bar {
     background: #ffffff !important;
